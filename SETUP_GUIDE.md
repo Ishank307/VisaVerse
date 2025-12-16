@@ -44,7 +44,7 @@ The application is configured but the Gemini API is returning a 404 error for th
 # Create a test script to list available models
 node -e "
 import('@google/generative-ai').then(({ GoogleGenerativeAI }) => {
-  const genAI = new GoogleGenerativeAI('AIzaSyC9w49dJfX3qRRT1VuqgEBWNKYt8eK9qsc');
+  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
   // Note: Check Gemini API docs for model listing endpoint
   console.log('Check: https://ai.google.dev/models/gemini');
 });
@@ -152,7 +152,9 @@ curl -X POST http://localhost:8000/api/visa-guidance \
 
 ### Backend `.env`
 ```env
-GEMINI_API_KEY=AIzaSyC9w49dJfX3qRRT1VuqgEBWNKYt8eK9qsc
+GOOGLE_API_KEY=your_google_api_key_here
+MONGODB_URI=your_mongodb_connection_string_here
+JWT_SECRET=your_secure_random_string_here
 PORT=8000
 NODE_ENV=development
 ```
