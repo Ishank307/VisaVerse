@@ -102,6 +102,12 @@ IMPORTANT:
         if (!response.ok) {
             const errorText = await response.text();
             console.error('API Error:', response.status, errorText);
+
+            // Handle rate limiting gracefully
+            if (response.status === 429) {
+                throw new Error('RATE_LIMIT_EXCEEDED');
+            }
+
             throw new Error(`API returned ${response.status}`);
         }
 

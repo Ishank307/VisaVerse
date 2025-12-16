@@ -34,6 +34,16 @@ router.post('/visa-guidance', async (req, res) => {
         res.json(result);
     } catch (error) {
         console.error('Error in visa-guidance endpoint:', error);
+
+        // Handle rate limit exceeded
+        if (error.message === 'RATE_LIMIT_EXCEEDED') {
+            return res.status(429).json({
+                success: false,
+                error: '⏰ Daily AI quota reached! Our free tier allows 20 requests per day. Please try again tomorrow or contact support for increased limits.',
+                retryAfter: '24 hours'
+            });
+        }
+
         res.status(500).json({
             success: false,
             error: 'Failed to generate visa guidance. Please try again later.'

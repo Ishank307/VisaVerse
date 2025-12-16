@@ -72,6 +72,15 @@ router.post('/document-analyze', upload.single('document'), async (req, res) => 
             }
         }
 
+        // Handle rate limit exceeded
+        if (error.message === 'RATE_LIMIT_EXCEEDED') {
+            return res.status(429).json({
+                success: false,
+                error: '⏰ Daily AI quota reached! Our free tier allows 20 requests per day. Please try again tomorrow or contact support for increased limits.',
+                retryAfter: '24 hours'
+            });
+        }
+
         res.status(500).json({
             success: false,
             error: 'Failed to analyze document. Please try again later.'
